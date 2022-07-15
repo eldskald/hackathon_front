@@ -12,6 +12,7 @@ export default function SingUp (){
     const [passwordValid, setPasswordValid] = useState('');
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const navigate = useNavigate();
 
@@ -34,13 +35,25 @@ export default function SingUp (){
           setIsLoading(false);
         })
         .catch(err => {
-          alert("Algo deu errado, tente novamente");
+          setError("Algo deu errado, tente novamente");
           setIsLoading(false);
         })
       } else {
-        alert("Senhas não são iguais");
+        setError("Senhas não são iguais");
         setIsLoading(false);
       }
+    }
+
+    function ErrorDiv() {
+        return (
+            error ? (
+                <ErrorMessage>
+                    {error}
+                </ErrorMessage>
+            ) : (
+                <></>
+            )
+        );
     }
 
     return(
@@ -56,6 +69,7 @@ export default function SingUp (){
                 <input placeholder="Senha" type="password" value={password} required onChange={e => setPassword(e.target.value)} disabled={isLoading}/>
                 <input placeholder="Confirme a senha" type="password" value={passwordValid} required onChange={e => setPasswordValid(e.target.value)} disabled={isLoading}/>
                 <button type="submit" className="button" disabled={isLoading}>{" "} {isLoading ? <Loading /> : "Cadastrar"}</button>
+                <ErrorDiv />
                 <Link to='/'><p>Já tem uma conta? Entre agora!</p></Link>
               </form>
             </Container>
@@ -156,4 +170,11 @@ const Container = styled.div`
     border: none;
     background: transparent;
   }
+`;
+
+const ErrorMessage = styled.div`
+    margin: 16px 0px;
+    font-family: 'Raleway';
+    color: #d02525;
+    font-weight: 500;
 `;

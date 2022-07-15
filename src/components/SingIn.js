@@ -11,6 +11,7 @@ export default function SingIn (){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
   
@@ -28,14 +29,26 @@ export default function SingIn (){
       promise
       .then(res => {
         navigate("/registros");
-        alert("Logado");
+        setError("Logado");
         setIsLoading(false);
 
       })
       .catch(err => {
-        alert("Algo deu errado, tente novamente");
+        setError("Algo deu errado, tente novamente");
         setIsLoading(false);
       })
+    }
+
+    function ErrorDiv() {
+        return (
+            error ? (
+                <ErrorMessage>
+                    {error}
+                </ErrorMessage>
+            ) : (
+                <></>
+            )
+        );
     }
 
     return(
@@ -153,4 +166,11 @@ const Container = styled.div`
     background: transparent;
 }
 
+`;
+
+const ErrorMessage = styled.div`
+    margin: 16px 0px;
+    font-family: 'Raleway';
+    color: #d02525;
+    font-weight: 500;
 `;
